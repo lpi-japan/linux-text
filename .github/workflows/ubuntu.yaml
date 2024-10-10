@@ -1,0 +1,19 @@
+name: ubuntu build
+
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+    paths:
+      - ubuntu/Chapter*.md
+      - ubuntu/image/**
+      - listing.tex
+      - .github/workflows/pandoc.yaml
+      - .github/workflows/ubuntu.yaml
+
+jobs:
+  build:
+    uses: ./.github/workflows/pandoc.yaml
+    with:
+      working-directory: ./ubuntu

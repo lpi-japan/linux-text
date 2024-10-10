@@ -1,0 +1,29 @@
+# https://pandoc-doc-ja.readthedocs.io/ja/latest/users-guide.html#reader-options-1
+
+filters:
+  - pandoc-crossref
+
+
+# https://pandoc-doc-ja.readthedocs.io/ja/latest/users-guide.html#general-writer-options-1
+
+variables:
+  documentClass: ltjarticle
+  mainfont: Harano Aji Gothic
+
+toc: true
+
+toc-depth: 3
+
+highlight-style: tango
+
+include-in-header:
+  - listing.tex
+
+
+# https://pandoc-doc-ja.readthedocs.io/ja/latest/users-guide.html#options-affecting-specific-writers-1
+
+number-sections: true
+
+listings: true
+
+pdf-engine: lualatex

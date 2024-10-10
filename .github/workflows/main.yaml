@@ -1,0 +1,19 @@
+name: main build
+
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+    paths:
+      - main/Chapter*.md
+      - main/image/**
+      - listing.tex
+      - .github/workflows/pandoc.yaml
+      - .github/workflows/main.yaml
+
+jobs:
+  build:
+    uses: ./.github/workflows/pandoc.yaml
+    with:
+      working-directory: ./main

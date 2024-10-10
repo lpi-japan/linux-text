@@ -1,0 +1,46 @@
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        required: true
+        type: string
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: sh
+        working-directory: ${{ inputs.working-directory }}
+    container:
+      image: ghcr.io/lpi-japan/server-text:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: list-files
+        run: echo "chapter=$(ls -1 Chapter*.md | grep -v 'Chapter0.md' | sort -V | tr '\n' ' ' | sed 's/ $//')" >> "$GITHUB_OUTPUT"
+      - run: pandoc Chapter0.md -o preface.tex
+      - run: pandoc -d config.yaml --template template.tex -B preface.tex ${{ steps.list-files.outputs.chapter }} -o guide.pdf
+      - uses: actions/upload-artifact@v4
+        with:
+          name: guide.pdf
+          path: ${{ inputs.working-directory }}/guide.pdf
+  build-epub:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: sh
+        working-directory: ${{ inputs.working-directory }}
+    container:
+      image: pandoc/core:3.1.1.0
+    steps:
+      - uses: actions/checkout@v4
+      - id: list-items
+        run: cat $(ls -1 Chapter*.md | sort -V | tr '\n' ' ' | sed 's/ $//') | sed 's/^####.*/#& {-}/' > guide.md
+      - run: /usr/bin/awk 'BEGIN{go=0;}{ if (go==1){print;} else {if($$0 ~ /^#/) { go=1;print;}}}' guide.md | pandoc -t epub3 -F pandoc-crossref -o guide.epub -N -M "crossrefYaml=crossref.yaml" --metadata-file=../metadata.yaml --epub-cover-image=image/Cover/cover.png --css=../epub.css
+      - uses: actions/upload-artifact@v4
+        with:
+          name: guide.epub
+          path: ${{ inputs.working-directory }}/guide.epub
