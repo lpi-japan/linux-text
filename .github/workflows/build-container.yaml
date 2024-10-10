@@ -1,0 +1,46 @@
+name: build pandoc container
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - feature/*
+    paths:
+      - Dockerfile
+      - .github/workflows/build-container.yaml
+
+jobs:
+  build-container:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: metadata
+        run: |
+          echo "image=$(echo ${{ github.repository }} | tr '[A-Z]' '[a-z]')" >> "$GITHUB_OUTPUT"
+          echo "tag=$(git rev-parse --short $GITHUB_SHA)" >> "$GITHUB_OUTPUT"
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ghcr.io/${{ steps.metadata.outputs.image }}:latest
+            ghcr.io/${{ steps.metadata.outputs.image }}:${{ steps.metadata.outputs.tag }}
