@@ -1,0 +1,52 @@
+\usepackage[japanese]{babel}
+\usepackage{luatexja}
+\usepackage[ipa]{luatexja-preset}
+\usepackage[a4paper,margin=2cm,truedimen]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily,
+    keywordstyle=\color[RGB]{33,74,135}\bfseries,
+    stringstyle=\color[RGB]{79,153,5},
+    commentstyle=\color[RGB]{143,89,2}\itshape,
+    %numberstyle=\footnotesize,
+    %numbers=none,
+    %stepnumber=1,
+    %numbersep=15pt,
+    backgroundcolor=\color[RGB]{240,240,240},
+    frame=single,
+    frameround=ffff,
+    framesep=5pt,
+    rulecolor=\color[RGB]{148,150,152},
+    breaklines=true,
+    breakautoindent=true,
+    breakatwhitespace=true,
+    breakindent=25pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    captionpos=t,
+    linewidth=\textwidth,
+}
+
+\setcounter{secnumdepth}{3}
+
+    \usepackage{fancyhdr}
+    \pagestyle{fancy}
+    \fancyhead[LE,RO]{\textsl{\rightmark}}
+    \fancyhead[LO,RE]{\textsl{\leftmark}}
+    \fancyfoot[LO,RE]{LPI-Japan}
+    \fancyfoot[RO,LE]{https://linuc.org}
+    \fancyfoot[CE,CO]{\thepage}
+
+\renewcommand\contentsname{目次}
+
+
+% 目次
+\usepackage{tocloft}
+\setlength{\cftsecnumwidth}{2em}
+\setlength{\cftsubsecnumwidth}{3em}
+\setlength{\cftsubsubsecnumwidth}{4em}
