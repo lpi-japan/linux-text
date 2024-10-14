@@ -1,0 +1,88 @@
+/* This defines styles and classes used in the book */
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    line-height:1.6;
+    font-family: "ShinGoPro-Regular","ShinGo-Regular", sans-serif;
+    /*
+    word-break: normal;
+    -webkit-line-break: after-white-space;
+    */
+}
+pre {
+	font-family: monospace;
+        font-size: 0.8em;
+    margin: 0;
+    padding: 5px;
+    border: 1px #aaa solid;
+    color: #000;
+    background-color: #ccc;
+}
+p, ul, ol, dl, pre, table {
+    font-family: "ShinGo Regular","ShinGo R","新ゴR","新ゴ R", sans-serif;
+    font-size: 0.875em;
+}
+table {
+    margin: 0 auto 2em auto;
+    border-collapse: collapse;
+}
+table tr th {
+    background-color: #eee;
+    border:1px #aaa solid;
+    font-size: 0.75em;
+    font-weight: normal;
+}
+table tr td {
+    padding: 0.3em;
+    border:1px #aaa solid;
+    font-size: 0.75em;
+}
+p.tablecaption, table caption {
+    margin: 0;
+    color: #666;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-indent: 0;
+}
+h1 {
+    margin: 0 0 3em;
+    padding: 0.5em 0 0;
+    border-top: 14px #7C2325 solid;
+    text-align: left;
+    font-size: 1.875em;
+    font-weight: bold;
+}
+h2 {
+    margin: 3em 0 0.5em;
+    padding: 0.5em 0 0;
+    border-top: 2px #7C2325 solid;
+    text-align: left;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+h3 {
+    margin: 3em 0 0.5em;
+    padding: 0;
+    text-align: left;
+    font-size: 1em;
+    font-weight: bold;
+}
+h4, h5, h6 {
+    margin:0.7em 0;
+    padding: 0;
+    text-align: left;
+    line-height: 1.6;
+    font-weight: bold;
+}
+/*
+h1.title { }
+h2.author { }
+h3.date { }
+*/
+ol.toc { padding: 0; margin-left: 1em; }
+ol.toc li { list-style-type: none; margin: 0; padding: 0; }
+a.footnote-ref { vertical-align: super; }
+em, em em em, em em em em em { font-style: italic;}
+em em, em em em em { font-style: normal; }
+

@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@v4
       - id: list-items
         run: cat $(ls -1 Chapter*.md | sort -V | tr '\n' ' ' | sed 's/ $//') | sed 's/^####.*/#& {-}/' > guide.md
-      - run: /usr/bin/awk 'BEGIN{go=0;}{ if (go==1){print;} else {if($$0 ~ /^#/) { go=1;print;}}}' guide.md | pandoc -t epub3 -F pandoc-crossref -o guide.epub -N -M "crossrefYaml=crossref.yaml" --metadata-file=../metadata.yaml --epub-cover-image=image/Cover/cover.png --css=../epub.css
+      - run: /usr/bin/awk 'BEGIN{go=0;}{ if (go==1){print;} else {if($$0 ~ /^#/) { go=1;print;}}}' guide.md | pandoc -t epub3 -F pandoc-crossref -o guide.epub -N -M "crossrefYaml=crossref.yaml" --metadata-file=metadata.yaml --epub-cover-image=image/Cover/cover.png --css=epub.css
       - uses: actions/upload-artifact@v4
         with:
           name: guide.epub
