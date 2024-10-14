@@ -1,195 +1,151 @@
-# プロセス管理
-Linuxのシステムは、様々なプログラムが動作して構成されています。動作しているプログラムをLinuxは「プロセス」として扱います。
+# ネットワークの設定と管理
+Linuxはサーバー用途で利用することが多いため、ネットワークに接続することが重要になります。
 
-本章では、プロセスの確認や管理について解説します。
+本章では、Linuxをネットワークに接続するために必要とされる基礎知識と確認コマンドと設定を見ていきます。
 
-## プロセスとは
-Linuxでは実行中のプログラム（アプリケーション）を「プロセス」として扱います。
+IPアドレスの確認
+通信の確認
+名前解決の確認
+ルーティングの確認
 
-コマンドを実行するために使っているシェル自身もプロセスです。シェルからコマンドを実行すると、プログラムが起動されてプロセスとなり、Linuxカーネルが管理します。プログラムが終了すると、プロセスは無くなります。
+## IPアドレスの確認
+最初に、使用しているLinuxに設定されているIPアドレスの確認を行います。IPアドレスの確認は、ipコマンドを使います。
 
-プロセスがプロセスを生成する場合、生成した側を親プロセス、生成された側を子プロセスと呼びます。シェルからコマンドを実行する場合、シェルが親プロセス、コマンドが子プロセスとなります。
-
-### psコマンドでプロセスを確認する
-動作しているプロセスを確認するには、psコマンドを使います。psコマンドはオプションをつけることで様々なプロセスの情報を表示できます。
-
-書式
-ps [オプション]
-
-オプション
-a
-すべてのプロセスを表示する
-
-f
-プロセスの親子関係を表示する
-
-u
-実行ユーザーを表示する
-
-x
-制御端末のないバックグラウンドプロセスも表示する
-
-
-★以下、実行結果はあらためてローカルログイン状態で再取得する
-
-psコマンドを、オプション無しで実行します。
-
-$ ps
-    PID TTY          TIME CMD
-   3306 pts/1    00:00:00 bash
-   3356 pts/1    00:00:00 ps
-
-現在使用しているシェルとpsコマンドのみ表示されます。
-
-### プロセスの親子関係を確認する
-fオプションをつけて実行します。プロセスの親子関係が表示されます。
-
-$ ps f
-    PID TTY      STAT   TIME COMMAND
-   2618 pts/0    Ss+    0:00 bash
-   3362 pts/0    R+     0:00  \_ ps f
-   1816 tty2     Ssl+   0:00 /usr/libexec/gdm-wayland-session --register-session
-   1823 tty2     Sl+    0:00  \_ /usr/libexec/gnome-session-binary
-
-psコマンドのプロセスがシェルから起動された子プロセスであることがわかります。また、GUI環境を利用するために必要なプロセスが別に動作しているのがわかります。
-
-### プロセスを実行したユーザーを確認する
-uオプションをつけて実行します。プロセスを実行したユーザーの情報が表示されます。
-
-$ ps u
-USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-linuc       1816  0.0  0.4 375108  7644 tty2     Ssl+ 10:30   0:00 /usr/libexec/
-linuc       1823  0.0  1.0 518668 17776 tty2     Sl+  10:30   0:00 /usr/libexec/
-linuc       2618  0.0  0.3 223940  5120 pts/0    Ss+  10:32   0:00 bash
-linuc       3368  0.0  0.1 225488  3072 pts/0    R+   15:03   0:00 ps u
-
-ユーザーlinucがプロセスを実行していることがわかります。
-
-### バックグラウンド動作しているプロセスを確認する
-シェルから起動したプロセス以外に、様々なプロセスが動作してLinuxのシステムを構成しています。それらのプロセスもpsコマンドで確認できます。
-
-psコマンドをxオプションをつけて実行します。制御端末のないバックグラウンドで動作しているプロセスの情報も表示されます。
-
-$ ps x
-    PID TTY      STAT   TIME COMMAND
-   1786 ?        Ss     0:00 /usr/lib/systemd/systemd --user
-   1788 ?        S      0:00 (sd-pam)
-   1807 ?        Sl     0:00 /usr/bin/gnome-keyring-daemon --daemonize --login
-   1816 tty2     Ssl+   0:00 /usr/libexec/gdm-wayland-session --register-session
-（略）
-   2618 pts/0    Ss+    0:00 bash
-   3369 pts/0    R+     0:00 ps x
-
-2番目のTTYの列が制御端末を表しています。この項目が?になっているプロセスは制御端末が無いので、バックグラウンドで動作しています。
-
-### 制御端末のあるすべてのプロセスを確認する
-Linuxのシステム全体のプロセスを確認するには、aオプションをつけて実行します。制御端末のあるすべてのプロセスの情報が表示されます。
-
-$ ps a
-    PID TTY      STAT   TIME COMMAND
-   1816 tty2     Ssl+   0:00 /usr/libexec/gdm-wayland-session --register-session
-   1823 tty2     Sl+    0:00 /usr/libexec/gnome-session-binary
-   2618 pts/0    Ss+    0:00 bash
-   3376 pts/0    R+     0:00 ps a
-
-GUIのためのプロセスが動作しているのがわかります。
-
-### すべてのプロセスを確認する
-axオプションをつけて実行します。制御端末のないバックグラウンドで動作しているプロセスもすべて表示されます。
-
-$ ps ax
-    PID TTY      STAT   TIME COMMAND
-      1 ?        Ss     0:00 /usr/lib/systemd/systemd rhgb --switched-root --sys
-      2 ?        S      0:00 [kthreadd]
-（略）
-
-カーネル起動後に最初に起動されるプロセスがプロセスID1番となりますが、systemdが最初に起動しているのがわかります。
-
-### pstreeコマンド
-プロセスの親子関係をツリー表示するには、pstreeコマンドを使います。ps fコマンドでも親子関係は表示できますが、より見やすい表示が行えます。
-
-$ pstree
-systemd─┬─ModemManager───3*[{ModemManager}]
-        ├─NetworkManager───2*[{NetworkManager}]
-（略）
-
-## top コマンド
-プロセスの状態を確認するツールとして、topコマンドがあります。
-
-topコマンドは実行中のプロセスの状態をリアルタイムで表示します。プロセスをCPUやメモリの使用率でソートしたり、システム全体のリソース負荷を確認できます。
-
-topコマンドのキー操作
-| キー | 動作
-|-|-
-| ? | ヘルプを表示する
-| スペース | 表示を更新する
-| 1 | CPU別にCPUの使用率を表示する
-| P | CPU使用率でプロセスをソート
-| M | メモリ使用率でプロセスをソート
-| < > | ソートのための項目を左右に選択する
-| x | ソートのために選択している項目をハイライト
-| b| ソートのために選択している項目を分かりやすくする
-| q| 終了する
-
-topコマンドを実行して、各キー操作の動作を確認してみてください。
-
-$ top
-
-「b」で選択している項目を分かりやすくする動作だけは、先に「x」で選択をハイライトにしてからでないと動作が分かりにくくなっています。「xb」と入力してみてください。
-
-## シグナルによるプロセスの制御
-プロセスは処理が正常に終わって終了したり、エラーを起こして異常終了する他、外部からシグナルを送ることで処理を停止させたり、終了させたりすることができます。
-
-コマンドラインでプロセスにシグナルを送信する方法は2つあります。
-
-- 端末でキー入力（例：Ctrl+cやCtrl+zなど）
-- killコマンド
-
-### シグナル番号とシグナル名
-シグナルには、シグナル番号およびシグナル名が割り当てられており、代表的なものに以下のシグナルがあります。
-
-代表的なシグナル
-| シグナル番号 | シグナル名 | 意味 | キー入力
-|-|-
-| 1 | HUP | ハングアップ(Hang Up) |
-| 2 | INT | 割り込み(Interrupt) | Ctrl+c
-| 9 | KILL | 強制終了(Kill) |
-| 15 | TERM | 終了(Terminate)。killコマンドのデフォルトシグナル |
-| 18 | TSTP | 一時停止(Terminate) | Ctrl+z
-
-上記以外にもシグナルがあり、killコマンドに-lオプションをつけて実行することでシグナルの種類を表示することができます。
-
-$ kill -l
- 1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL
- 5) SIGTRAP	 6) SIGABRT	 7) SIGEMT	 8) SIGFPE
- 9) SIGKILL	10) SIGBUS	11) SIGSEGV	12) SIGSYS
-13) SIGPIPE	14) SIGALRM	15) SIGTERM	16) SIGURG
-17) SIGSTOP	18) SIGTSTP	19) SIGCONT	20) SIGCHLD
-21) SIGTTIN	22) SIGTTOU	23) SIGIO	24) SIGXCPU
-25) SIGXFSZ	26) SIGVTALRM	27) SIGPROF	28) SIGWINCH
-29) SIGINFO	30) SIGUSR1	31) SIGUSR2
-
-### killコマンドによるシグナル送信
-killコマンドでプロセスにシグナルを送信してみます。
+ipコマンドはネットワークに関わる様々な情報の表示が行えるコマンドで、サブコマンドの指定によって動作が変わります。サブコマンドとして「address」を指定することで、ネットワークインターフェースの情報を表示します。インターフェースを省略すると、すべてのインターフェースについて表示します。
 
 書式
-kill [オプション] プロセスID
+ip a[ddress] [インターフェース]
 
-オプション
--シグナル番号
-指定したシグナル番号のシグナルをプロセスに送信する
 
-$ sudo tail -f /var/log/messages &
-[1] 22385
-（略）
-$ kill 22385
-$ ※メッセージが表示されるようにEnterキーを入力
-[1]+  Terminated              sudo tail -f /var/log/messages
+$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:fb:82:26 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute enp0s8
+       valid_lft 74465sec preferred_lft 74465sec
+    inet6 fd00::a00:27ff:fefb:8226/64 scope global dynamic noprefixroute
+       valid_lft 85946sec preferred_lft 13946sec
+    inet6 fe80::a00:27ff:fefb:8226/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+3: enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:a2:d5:45 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.56.3/24 brd 192.168.56.255 scope global dynamic noprefixroute enp0s9
+       valid_lft 74464sec preferred_lft 74464sec
+    inet6 fe80::a00:27ff:fea2:d545/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
 
-&をつけてコマンドを実行すると、そのコマンドはバックグラウンドジョブとしてプロセスが実行されたままになり、制御はコマンドプロンプトに戻ります。tail -fコマンドは終了の指示を受けない限り引数で指定されたファイルに書き込まれた情報を標準出力に表示し続けます。
+ここでは、3つのインターフェースがあるのがわかります。
 
-シェルプロンプトに戻った際に表示されているのが、ジョブ番号とプロセスIDです。killコマンドの引数としてこのプロセスIDを指定することでプロセスが終了しました。
+### ローカルループバックアドレス
+ネットワークインターフェースloは、ローカルループバックのためのインターフェースです。ローカルループバックは自分自身と通信するための仕組みです。IPアドレスは通常127.0.0.1が割り当てられます。
 
-### シグナル指定の使い方
-オプションでシグナルを指定しない場合、デフォルトで15番のTERM（SIGTERM）が送信されます。プログラムが暴走してしまい制御できなくなったプロセスを強制的に終了するためにシグナル番号9番（KILL）を送信するなどの使い方をします。
+### 外部通信用のIPアドレス
+ネットワークインターフェースenp0s3が、NATによる外部との通信のために用意されているインターフェースです。IPアドレスとして10.0.2.15が割り当てられています。
+
+### 内部通信用のIPアドレス
+ネットワークインターフェースenp0s8が、ホストオンリーネットワークによるホストOSとの通信のために用意されているインターフェースです。IPアドレスとして192.168.56.2が割り当てられています。
+
+## pingコマンドによるIP通信の確認
+コンピューター間の通信は、IP（Internet Protocol）というプロトコルによる通信で成り立っています。
+
+IPによる通信が行えることを確認するには、pingコマンドを使います。
+
+書式
+ping IPアドレスまたはホスト名
+
+pingコマンドの引数にIPアドレス、またはホスト名を指定することで、指定先との間でIP通信が行えるかを確認します。
+
+インターネットに接続できる環境であれば、インターネット上のコンピューターとの接続も確認できます。
+
+以下の実行例では、インターネット上にあるlinuc.orgという名前のサーバーとの間でのIP通信を確認しています。
+
+$ ping linuc.org
+PING linuc.org (219.94.236.161) 56(84) bytes of data.
+64 バイト応答 送信元 219.94.236.161: icmp_seq=1 ttl=255 時間=16.3ミリ秒
+64 バイト応答 送信元 219.94.236.161: icmp_seq=2 ttl=255 時間=15.7ミリ秒
+^C
+--- linuc.org ping 統計 ---
+送信パケット数 2, 受信パケット数 2, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 15.668/15.991/16.315/0.323 ms
+
+pingコマンドは、停止しない限り繰り返し通信ができるかの確認を行い続けます。Ctrl+cを入力して、停止してください。
+
+pingコマンドの結果には、通信が往復するのにどれぐらい時間がかかったのかも表示されます。海外などネットワーク的に距離があるコンピューターとの通信には時間がかかりますが、距離が近いコンピューターとの通信に時間がかかる場合には、ネットワークが混雑しているか、あるいはネットワーク障害などが起きている可能性があります。
+
+//indepimage[linuxtext2-img09][][latex::width=0.8\maxwidth]
+
+### pingコマンドに反応しない場合
+pingコマンドの通信はTCPやUDPではなく、ICMPのEchoという仕組みを使っていますが、相手のコンピューターがEchoに反応しない場合があります。これはセキュリティの関係上、ICMP Echoに反応して存在を知られないようにするためです。pingコマンドに反応しないからといって、IPによる通信が行えないわけではないことに注意が必要です。
+
+## 名前解決の確認
+名前解決とは、ホスト名をIPアドレスに変換する仕組みのことです。Webサーバーやメールサーバーでやり取りをするには必須となる技術です。
+
+すべてのインターネットの通信をIPアドレスを直に指定して行うのは不便です。そこで、外部からのアクセスを受け付けたい組織はドメイン名を取得し、インターネットに接続するコンピューターにドメイン名（正確にはホスト名）を割り当てます。割り当てたホスト名とIPアドレスの組み合わせは、名前解決で調べられるようにしておきます。利用者は名前解決を行って、ホスト名からIPアドレスを取得して通信を行います。
+
+名前解決の仕組みは様々なものがありますが、最もよく使われているのがDNS（Domain Name System）です。DNSを使って、名前解決ができるかどうかを確認するには、digコマンドを使います。
+
+書式
+dig ホスト名
+
+以下の実行例では、digコマンドを使ってlinuc.orgを名前解決しています。
+
+$ dig www.linuc.org
+
+; <<>> DiG 9.16.23-RH <<>> www.linuc.org
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 37099
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.linuc.org.			IN	A
+
+;; ANSWER SECTION:
+www.linuc.org.		3588	IN	A	219.94.236.161
+
+;; Query time: 20 msec
+;; SERVER: 10.0.2.3#53(10.0.2.3)
+;; WHEN: Mon Sep 16 14:14:49 JST 2024
+;; MSG SIZE  rcvd: 58
+
+
+名前解決が行われて、ANSWER SECTIONにIPアドレスが表示されているのがわかります。
+
+### 参照しているDNSの確認
+DNSは、名前解決を行ってくれるDNSサーバーが動作しており、そのDNSサーバーに対して名前解決のリクエストを送ることでIPアドレスがわかります。参照しているDNSを間違えていると、名前解決が行えなくなります。
+
+参照しているDNSは、/etc/resolv.confに記述されています。
+
+$ cat /etc/resolv.conf
+# Generated by NetworkManager
+nameserver 10.0.2.3
+nameserver fd00::3
+
+この設定では、IPアドレス10.0.2.3をDNSサーバーとして参照しているのがわかります。この設定ファイルを直接修正して動作を変更することもできますが、1行目に書かれている通り、この設定ファイルはNetworkManagerという仕組みでシステム起動時に自動的に生成されています。設定変更は後述するNetworkManagerの設定変更方法に従って行ってください。
+
+## ルーティングの確認
+コンピューターがネットワークで通信するためにはLAN（Local Area Network）に接続します。同じLANに接続されているコンピューター同士は直接通信を行えます。一方、その他のLANに接続されているコンピューターやインターネット上に接続されているコンピューターと通信を行うには、ルーターを通じて通信を行う必要があります。ルーターを介して外部ネットワークと通信を行うことを「ルーティング」と呼びます。
+
+ルーティングを行うためのデフォルトのルーターのことを「デフォルトゲートウェイ」と呼びます。
+
+コンピューターに設定されているルーティングを確認するには、ip routeコマンドを実行します。
+
+$ ip route
+default via 10.0.2.2 dev enp0s3 proto dhcp src 10.0.2.15 metric 100
+10.0.2.0/24 dev enp0s3 proto kernel scope link src 10.0.2.15 metric 100
+192.168.56.0/24 dev enp0s8 proto kernel scope link src 192.168.56.3 metric 101
+
+1行目は、デフォルトゲートウェイが10.0.2.2に設定されており、通信にはネットワークインターフェースenp0s3を使用することを表しています。
+2行目は、このコンピューターがNATで接続されているネットワーク（10.0.2.0/24）と通信するには、ネットワークインターフェースenp0s3を使用すると設定されていることを表しています。
+3行目は、このコンピューターがホストオンリーネットワークで接続されているネットワーク（192.168.56.0/24）と通信するには、ネットワークインターフェースenp0s8を使用すると設定されていることを表しています。
+
+外部との通信が行えない場合には、まずコンピューター自身のルーティングを確認するようにしてください。
+
 
