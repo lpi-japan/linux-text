@@ -130,7 +130,7 @@ viで/etc/sudoersが開けたら、以下の設定行を見つけて変更し、
 ## Allows people in group wheel to run all commands
 %wheel  ALL=(ALL)       ALL
 ```
-↓
+↓ 行頭に「# 」を入れてコメントアウトする
 ```
 # %wheel  ALL=(ALL)       ALL
 ```
@@ -139,7 +139,7 @@ viで/etc/sudoersが開けたら、以下の設定行を見つけて変更し、
 ## Same thing without a password
 # %wheel        ALL=(ALL)       NOPASSWD: ALL
 ```
-↓
+↓ 行頭のコメントアウト「# 」を削除して有効にする
 ```
 %wheel        ALL=(ALL)       NOPASSWD: ALL
 ```
