@@ -42,7 +42,7 @@ http://ftp.iij.ad.jp/pub/linux/almalinux/9.4/isos/x86_64
 ### URLが利用できない場合
 URLはサイト構造の変更によって変わっている場合があります。その場合には、AlmaLinuxのWebサイトからリンクを辿ってダウンロードサイトを探してください。
 
-![AlmaLinuxのダウンロードサイト](image/Ch1/AlmaLinuxDownload.png){width=70%}
+![AlmaLinuxのダウンロードサイト](image/Ch03/AlmaLinuxDownload.png){width=70%}
 
 ## ISOイメージのファイル名
 ISOイメージは以下のようなファイル名になっています。
