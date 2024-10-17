@@ -171,6 +171,6 @@ LinuCの特徴の1つに学習教材の豊富さが挙げられます。「認�
 https://linuc.org/measures/movie/
 ```
 
-![https://linuc.org/measures/movie/](image/Ch00/QRmoviepng){width=25%}
+![https://linuc.org/measures/movie/](image/Ch00/QRmovie.png){width=25%}
 
 \pagebreak
