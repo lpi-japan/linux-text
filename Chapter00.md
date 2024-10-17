@@ -81,7 +81,7 @@ Linuxのネットワークの設定と管理について解説します。
 ### 11章 プロセス管理 {.unlisted .unnumbered}
 Linux上で動作するプログラムはプロセスとして扱われます。プロセスの管理について解説します。
 
-## 執筆者紹介
+## 執筆者紹介 {.unlisted .unnumbered}
 本教科書は、オープンなプロジェクト形式で開発を行っています。企画段階から意見交換を行い、事前の技術的な調査、執筆、レビューなどをプロジェクトのメンバーで分担して行っています。
 
 ### 宮原 徹（バージョン1企画・バージョン4執筆担当） {.unlisted .unnumbered}
@@ -126,7 +126,8 @@ Copyright©️ LPI-Japan. All Rights Reserved.
 https://linuc.org/textbooks/linux/
 ```
 
-![https://linuc.org/textbooks/server/](image/Ch00/QRlinux.png){width=25%}
+
+![https://linuc.org/textbooks/linux/](image/Ch00/QRlinux.png){width=25%}
 
 ## 本教科書の使用に関するお問合せ先 {.unlisted .unnumbered}
 特定非営利活動法人エルピーアイジャパン（LPI-Japan）事務局
@@ -162,13 +163,14 @@ https://linuc.org/about/01.html
 
 ![https://linuc.org/about/01.html](image/Ch00/QRaboutLinuC.png){width=25%}
 
-### LinuCの認定取得に向けた学習方法
-
+### LinuCの認定取得に向けた学習方法 {.unlisted .unnumbered}
 LinuCの特徴の1つに学習教材の豊富さが挙げられます。「認定教材」と呼ばれるLinuCの出題範囲を網羅した教材だけでなく、例えば実際のコマンド操作の様子などを確認することができる動画コンテンツなどは多くの方に利用されています。
 特に書籍からだけでは理解が難しいポイント、動く様子を見る方が理解しやすいポイントなどをピックアップして解説しているので、Linux標準教科書で学習している方々にも参考になる内容となっています。誰でも無料で視聴することができますので、ぜひ一度ご覧ください。
 
 ```
 https://linuc.org/measures/movie/
 ```
+
+![https://linuc.org/measures/movie/](image/Ch00/QRmoviepng){width=25%}
 
 \pagebreak
