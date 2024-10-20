@@ -185,6 +185,8 @@ DHCPサーバーもデフォルトで有効になっており、インストー�
 
 ![仮想ネットワークの設定画面](image/Ch02/configHostOnly.png){width=70%}
 
+\pagebreak
+
 ### 仮想マシンにネットワークアダプターを追加 {.unlisted .unnumbered}
 仮想マシンにネットワークアダプターを追加します。
 
