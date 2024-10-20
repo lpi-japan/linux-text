@@ -176,15 +176,5 @@ Last login: Sun Sep 15 09:49:18 2024
 
 初めてSSHで接続する場合、接続先のホスト証明書が送られてきます。接続を続ける場合には「yes」と入力します。その後、ユーザーlinucのパスワードが要求されるので、パスワードを入力すると接続が完了します。
 
-コマンドプロンプトが表示されれば、GUIの「端末」アプリで実行するのと同じようにコマンドを実行できます。ただし、GUIがないのでsystemctlコマンドの認証がダイアログではなくなるなどの違いがあります。
-
-```
-$ systemctl start httpd
-==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ====
-'httpd.service'を開始するには認証が必要です。
-Authenticating as: LinuC (linuc)
-Password:
-==== AUTHENTICATION COMPLETE ====
-```
-
+コマンドプロンプトが表示されれば、GUIの「端末」アプリで実行するのと同じようにコマンドを実行できます。
 \pagebreak
