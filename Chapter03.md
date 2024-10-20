@@ -23,6 +23,8 @@ https://almalinux.org/ja/
 
 AlmaLinuxは、商用ディストリビューションであるRed Hat Enterprise Linuxをベースにしたディストリビューションとして提供されています。利用に際し費用が発生しない、無償で提供されているディストリビューションです。
 
+\pagebreak
+
 ## インストール用ISOイメージの入手
 AlmaLinux OS Foundationが配布しているISOイメージを、ダウンロードします。仮想マシンは、仮想光学ドライブにISOイメージをセットすることでインストールが行えるので、インストール用のDVD/USBメモリを作成する必要がありません。
 
@@ -43,6 +45,8 @@ http://ftp.iij.ad.jp/pub/linux/almalinux/9.4/isos/x86_64
 URLはサイト構造の変更によって変わっている場合があります。その場合には、AlmaLinuxのWebサイトからリンクを辿ってダウンロードサイトを探してください。
 
 ![AlmaLinuxのダウンロードサイト](image/Ch03/AlmaLinuxDownload.png){width=70%}
+
+\pagebreak
 
 ## ISOイメージのファイル名
 ISOイメージは以下のようなファイル名になっています。
@@ -88,6 +92,8 @@ VirtualBoxマネージャーから仮想マシンを選択し、右側の各種�
 「光学ドライブ:IDE セカンダリデバイス0」の右側にある円形のボタンをクリックし、「Choose a Disk File...」を選択すると、ファイルダイアログが開きます。準備しておいたOSインストール用のISOイメージを選択し、「開く」ボタンをクリックします。「空」の表示がファイル名に変わります。
 
 ![仮想マシンの仮想光学ドライブの設定画面](image/Ch03/VMconfigDVD.png){width=70%}
+
+\pagebreak
 
 ## 仮想マシンの起動
 VirtualBoxマネージャーで仮想マシンを選択し、「起動」をクリックします。別ウインドウで仮想マシンが起動します。
