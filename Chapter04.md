@@ -62,6 +62,8 @@ systemctlコマンドを実行すると、システム管理者のユーザー�
 
 コマンドプロンプトには、コマンド履歴という機能があります。以前に実行したコマンドを呼び出してそのまま実行したり、修正して実行したりできます。カーソルキーの上下でコマンド履歴を呼び出し、修正する場合にはカーソルキーの左右でカーソルを動かし、DeleteキーやBackSpaceキーで文字を消すことができます。
 
+\pagebreak
+
 カーソルキーの上を押して「systemctl start httpd」コマンドを呼び出し、「start」を消して「status」に書き換えて実行します。
 
 ```
@@ -74,6 +76,27 @@ $ systemctl sta httpd
 ↓ tusを追加して実行
 ```
 $ systemctl status httpd
+● httpd.service - The Apache HTTP Server
+     Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; preset: d>
+     Active: active (running) since Mon 2024-10-21 16:46:51 JST; 1s ago
+       Docs: man:httpd.service(8)
+   Main PID: 8248 (httpd)
+     Status: "Started, listening on: port 443, port 80"
+      Tasks: 178 (limit: 10104)
+     Memory: 32.5M
+        CPU: 34ms
+     CGroup: /system.slice/httpd.service
+             ├─8248 /usr/sbin/httpd -DFOREGROUND
+             ├─8249 /usr/sbin/httpd -DFOREGROUND
+             ├─8250 /usr/sbin/httpd -DFOREGROUND
+             ├─8251 /usr/sbin/httpd -DFOREGROUND
+             ├─8252 /usr/sbin/httpd -DFOREGROUND
+             └─8253 /usr/sbin/httpd -DFOREGROUND
+
+10月 21 16:46:51 localhost.localdomain systemd[1]: Starting The Apache HTTP Ser>
+10月 21 16:46:51 localhost.localdomain httpd[8248]: AH00558: httpd: Could not r>
+10月 21 16:46:51 localhost.localdomain systemd[1]: Started The Apache HTTP Serv>
+10月 21 16:46:51 localhost.localdomain httpd[8248]: Server configured, listenin>
 ```
 
 実行結果の「Active:」の項目が「active (running)」になっていれば、httpdサービスが実行中であることがわかります。サービスはいくつかのプロセスとしてバックグラウンドで実行されています。プロセスについては第10章で解説します。確認を終えたら「q」（Quit）キーを入力して表示を終了します。
