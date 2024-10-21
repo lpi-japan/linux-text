@@ -171,7 +171,7 @@ appstream.conf      krb5.conf       pbm2ppa.conf    updatedb.conf
 （略）
 ```
 
-「¥*」は任意の文字列を示しており、*で指定した位置にいくつ文字が入っても検索結果として出力されます。「*.conf」と指定することで、.confで終わるファイルがリスト表示されました。
+* は任意の文字列を示しています。* で指定した位置にいくつ文字が入っても検索結果として出力されます。「*.conf」と指定することで、.confで終わるファイルがリスト表示されました。
 
 ファイル名の文字数がわかっている場合は「?」を使って絞り込めます。?は一個につき何らかの一文字を示します。
 
@@ -801,7 +801,8 @@ catコマンドを実行すると、/usr/bin/catが呼び出されているの�
 
 ```
 $ echo $PATH
-/home/linuc/.local/bin:/home/linuc/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+/home/linuc/.local/bin:/home/linuc/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/u
+sr/sbin
 ```
 
 ## コマンドのヘルプを表示する
