@@ -31,6 +31,8 @@ $ chcon -R -t httpd_sys_content_t ~/public_html/
 
 SELinuxについては『Linuxシステム管理標準教科書』で解説しているので、参考にしてください。
 
+\pagebreak
+
 ### 解答
 どうしてもやり方が分からない、解答が知りたい、という人は以下の記事を参照してみてください。
 
