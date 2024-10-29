@@ -181,12 +181,12 @@ drwxrwxrwx. 2 linuc wheel 6  8月 16 14:25 testdir
 ```
 $ ls -l test
 -rw-rw-r--. 1 linuc linuc 0  8月 16 14:24 test
-$ chmod 644 test
+$ chmod 666 test
 $ ls -l test
--rw-r--r--. 1 linuc linuc 0  8月 16 14:24 test
+-rw-rw-rw-. 1 linuc linuc 0  8月 16 14:24 test
 ```
 
-「644」と指定したので、アクセス権は「-rw-r--r--」となりました。
+「666」と指定したので、アクセス権は「rw-rw-rw-」となりました。
 
 以下の実行例では、ディレクトリのアクセス権を指定しています。
 
