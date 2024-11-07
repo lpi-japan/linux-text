@@ -182,19 +182,18 @@ Windowsのコマンドプロンプトを実行します。タスクバーの検�
 ssh ユーザー名@接続先IPアドレス
 ```
 
-以下の例では、ユーザーlinucで192.168.56.2に接続しようとしています。
+以下の例では、ユーザーlinucで192.168.56.3に接続しようとしています。
 
 ```
 >ssh linuc@192.168.56.3
-The authenticity of host '192.168.56.2 (192.168.56.3)' can't be established.
-ED25519 key fingerprint is SHA256:xW65Q1rynI7tb8LmiZrmu1X1O0sc8Zf/csbfsAx8Hfs.
-This key is not known by any other names
+The authenticity of host '192.168.56.3 (192.168.56.3)' can't be established.
+ECDSA key fingerprint is SHA256:/yjso78Rqa2Sv+UWJ/k8ofOrrT0dFWdX2+Efyuef8qY.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes ※yesと入力
-Warning: Permanently added '192.168.56.2' (ED25519) to the list of known hosts.
-linuc@192.168.56.2's password: ※ユーザーlinucのパスワードを入力（非表示）
+Warning: Permanently added '192.168.56.3' (ECDSA) to the list of known hosts.
+linuc@192.168.56.3's password: ※ユーザーlinucのパスワードを入力（非表示）
 Activate the web console with: systemctl enable --now cockpit.socket
 
-Last login: Sun Sep 15 09:49:18 2024
+Last login: Thu Oct 17 17:22:16 2024 from 192.168.56.1
 [linuc@vbox ~]$
 ```
 
