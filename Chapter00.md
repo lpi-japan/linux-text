@@ -188,7 +188,7 @@ LinuCの認定取得に必要となるスキルや知識を身につけるには
 https://linuc.org/measures/
 ```
 
-![https://linuc.org/measures/movie/](image/Ch00/QR_ measures.png){width=25%}
+![https://linuc.org/measures/](image/Ch00/QR_ measures.png){width=25%}
 
 LinuC認定教材については以下のリンク先をご覧ください。
 
@@ -196,7 +196,7 @@ LinuC認定教材については以下のリンク先をご覧ください。
 https://linuc.org/measures/textbook/
 ```
 
-![https://linuc.org/measures/movie/](image/Ch00/QR_ textbook.png){width=25%}
+![https://linuc.org/measures/textbook/](image/Ch00/QR_ textbook.png){width=25%}
 
 \pagebreak
 
