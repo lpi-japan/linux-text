@@ -20,7 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: list-files
-        run: echo "chapter=$(ls -1 Chapter*.md | grep -v 'Chapter00.md' | sort -V | tr '\n' ' ' | sed 's/ $//')" >> "$GITHUB_OUTPUT"
+        run: tlmgr install wallpaper && tlmgr install eso-pic
+      - run: echo "chapter=$(ls -1 Chapter*.md | grep -v 'Chapter00.md' | sort -V | tr '\n' ' ' | sed 's/ $//')" >> "$GITHUB_OUTPUT"
       - run: pandoc Chapter00.md -o preface.tex
       - run: pandoc -d config.yaml --template template.tex -B preface.tex ${{ steps.list-files.outputs.chapter }} -o guide.pdf
       - uses: actions/upload-artifact@v4
