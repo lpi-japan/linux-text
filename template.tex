@@ -540,8 +540,27 @@ $if(logo)$
 \logo{\includegraphics{$logo$}}
 $endif$
 $endif$
-
+\usepackage{wallpaper}
 \begin{document}
+
+\thispagestyle{empty}
+\ThisCenterWallPaper{1}{image/Cover/cover.png}
+\null
+\cleardoublepage
+
+\thispagestyle{empty}
+\begin{center}
+  \vspace*{2cm}
+  {\Huge Linux標準教科書}
+
+  \vspace{1cm}
+  {\Large 2024年12月16日 v4.0.0版発行}
+
+  \vspace{0.5cm}
+  {\Large 発行元: LPI-Japan}
+\end{center}
+\newpage
+
 $if(has-frontmatter)$
 \frontmatter
 $endif$
@@ -646,4 +665,16 @@ $include-after$
 
 $endfor$
 %% \includepdf[pages=-, noautoscale=true, scale=1.0]{中表紙後.pdf}
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+  \textbf{\LARGE Linux標準教科書}
+
+  \rule{\textwidth}{0.5pt}
+  
+  2024年12月16日 v4.0.0版発行\\
+  発行元 LPI-Japan\\
+  \rule{\textwidth}{0.5pt}
+
+  \copyright{} 2024 LPI-Japan. All Rights Reserved.
 \end{document}
