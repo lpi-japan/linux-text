@@ -550,14 +550,16 @@ $endif$
 
 \thispagestyle{empty}
 \begin{center}
-  \vspace*{2cm}
-  {\Huge Linux標準教科書}
+  \vspace*{6cm}
+  {\Huge $bookTitle$}
 
-  \vspace{1cm}
-  {\Large 2024年12月16日 v4.0.0版発行}
+  \vfill
 
-  \vspace{0.5cm}
-  {\Large 発行元: LPI-Japan}
+  {\Large $bookVersion$}
+
+  {\Large LPI-Japan \, 発行}
+
+  \vspace*{4cm}
 \end{center}
 \newpage
 
@@ -664,17 +666,20 @@ $for(include-after)$
 $include-after$
 
 $endfor$
-%% \includepdf[pages=-, noautoscale=true, scale=1.0]{中表紙後.pdf}
 \newpage
 \thispagestyle{empty}
-\vspace*{\fill}
-  \textbf{\LARGE Linux標準教科書}
+  \vspace*{\fill}
+  {\LARGE $bookTitle$}
 
   \rule{\textwidth}{0.5pt}
-  
-  2024年12月16日 v4.0.0版発行\\
-  発行元 LPI-Japan\\
+
+  $bookVersion$
+
+  発行元 \, LPI-Japan
+
   \rule{\textwidth}{0.5pt}
 
-  \copyright{} 2024 LPI-Japan. All Rights Reserved.
+  Copyright \copyright{} 2024 LPI-Japan. All Rights Reserved.
+
+  \vspace*{1cm}
 \end{document}
