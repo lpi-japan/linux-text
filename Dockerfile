@@ -19,5 +19,5 @@ RUN apt-get update \
     && apt-get install -y fonts-takao fonts-ipafont \
     && rm -rf /var/lib/apt/lists/*
 
-RUN tlmgr update --self --all
-RUN tlmgr install collection-langjapanese tocloft wallpaper eso-pic
+RUN tlmgr update --self --all \
+    && tlmgr install collection-langjapanese tocloft wallpaper eso-pic
