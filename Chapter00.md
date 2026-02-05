@@ -49,40 +49,40 @@ https://linuc.org/textbooks/linux/
 ## 全体の流れ {.unlisted .unnumbered}
 本教科書では、以下の通りに実習を進めます。
 
-### 1章 Linuxを学ぶ {.unlisted .unnumbered}
+### 1章&nbsp;Linuxを学ぶ {.unlisted .unnumbered}
 Linuxを学ぶとはどういうことなのか、本教科書で学習する内容の全体像を解説します。
 
-### 2章 VirtualBoxのインストールと仮想マシンの作成 {.unlisted .unnumbered}
+### 2章&nbsp;VirtualBoxのインストールと仮想マシンの作成 {.unlisted .unnumbered}
 VirtualBoxのインストール、仮想マシンの作成を行います。
 
-### 3章 Linuxのインストールと設定 {.unlisted .unnumbered}
+### 3章&nbsp;Linuxのインストールと設定 {.unlisted .unnumbered}
 仮想マシンにLinuxをインストールします。
 
-### 4章 Linuxを操作してみよう {.unlisted .unnumbered}
+### 4章&nbsp;Linuxを操作してみよう {.unlisted .unnumbered}
 Linuxをコマンドで操作することについてのイメージを掴むため、Webサーバーを動かしてみます。また、以後の実習を進めやすくするため、SSHによるリモートログインの方法も解説します。
 
-### 5章 基本的なコマンド {.unlisted .unnumbered}
+### 5章&nbsp;基本的なコマンド {.unlisted .unnumbered}
 Linuxを操作するための基本的なコマンドであるファイルやディレクトリの操作、その他基本コマンドを解説します。
 
-### 6章 標準入出力とフィルタコマンド {.unlisted .unnumbered}
+### 6章&nbsp;標準入出力とフィルタコマンド {.unlisted .unnumbered}
 Linuxのコマンド間のデータを連携する標準入出力と、標準入出力を活用するフィルタコマンドについて解説します。
 
-### 7章 viエディタ {.unlisted .unnumbered}
+### 7章&nbsp;viエディタ {.unlisted .unnumbered}
 Linuxの基本的なエディタであるviエディタの操作方法について解説します。
 
-### 8章 ユーザーとグループの管理 {.unlisted .unnumbered}
+### 8章&nbsp;ユーザーとグループの管理 {.unlisted .unnumbered}
 Linuxのシステム制御の基本単位であるユーザーとグループの管理について解説します。
 
-### 9章 ファイルやディレクトリのアクセス制御 {.unlisted .unnumbered}
+### 9章&nbsp;ファイルやディレクトリのアクセス制御 {.unlisted .unnumbered}
 ファイルやディレクトリに対するアクセス制御について解説します。
 
-### 10章 ネットワークの設定と管理 {.unlisted .unnumbered}
+### 10章&nbsp;ネットワークの設定と管理 {.unlisted .unnumbered}
 Linuxのネットワークの設定と管理について解説します。
 
-### 11章 プロセス管理 {.unlisted .unnumbered}
+### 11章&nbsp;プロセス管理 {.unlisted .unnumbered}
 Linux上で動作するプログラムはプロセスとして扱われます。プロセスの管理について解説します。
 
-### 12章 腕試しの課題とまとめ {.unlisted .unnumbered}
+### 12章&nbsp;腕試しの課題とまとめ {.unlisted .unnumbered}
 本教科書の内容が理解できているか、Webサーバーの「ユーザーディレクトリ機能」を題材に腕試しの課題に挑戦してみましょう。
 
 \pagebreak
