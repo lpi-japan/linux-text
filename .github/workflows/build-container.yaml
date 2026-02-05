@@ -41,6 +41,7 @@ jobs:
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          # コミットハッシュでタグを作成 & mainブランチの場合は latest タグも更新
           tags: |
-            ghcr.io/${{ steps.metadata.outputs.image }}:latest
             ghcr.io/${{ steps.metadata.outputs.image }}:${{ steps.metadata.outputs.tag }}
+            ${{ github.ref == 'refs/heads/main' && format('ghcr.io/{0}:latest', steps.metadata.outputs.image) || '' }}
