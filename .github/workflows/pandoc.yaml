@@ -6,6 +6,33 @@ on:
         type: string
 
 jobs:
+  check-consistency:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: sh
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check version/date consistency
+        run: |
+          PDF_VER=$(grep -oP 'Ver\.\d+\.\d+\.\d+' config-pdf.yaml)
+          EPUB_VER=$(grep -oP 'Ver\.\d+\.\d+\.\d+' config-epub.yaml)
+          PDF_DATE_JP=$(grep bookVersion config-pdf.yaml | grep -oP '\d+年\d+月\d+日')
+          PDF_DATE=$(echo "$PDF_DATE_JP" | sed 's/年/-/g;s/月/-/g;s/日//' | awk -F'-' '{printf "%04d-%02d-%02d", $1, $2, $3}')
+          EPUB_DATE=$(grep -oP '(?<=date: )\d{4}-\d{2}-\d{2}' config-epub.yaml)
+          ERROR=0
+          if [ "$PDF_VER" != "$EPUB_VER" ]; then
+            echo "::error::Version mismatch! config-pdf.yaml=$PDF_VER, config-epub.yaml=$EPUB_VER"
+            ERROR=1
+          fi
+          if [ "$PDF_DATE" != "$EPUB_DATE" ]; then
+            echo "::error::Date mismatch! config-pdf.yaml=$PDF_DATE, config-epub.yaml=$EPUB_DATE"
+            ERROR=1
+          fi
+          if [ $ERROR -eq 0 ]; then echo "Version/Date OK: $PDF_VER / $EPUB_DATE"; fi
+          exit $ERROR
+
   build-pdf:
     runs-on: ubuntu-latest
     defaults:
@@ -22,7 +49,7 @@ jobs:
       - run: |
           chapters=$(ls -1 Chapter*.md | grep -v 'Chapter00.md' | sort -V | tr '\n' ' ' | sed 's/ $//')
           pandoc Chapter00.md -o preface.tex # 前書きだけ目次の前に出すために先にtex化しておく
-          pandoc -d config.yaml --template template.tex -B preface.tex ${chapters} -o guide.pdf --verbose 2>&1 | grep -v '^  '
+          pandoc -d config-pdf.yaml --template template.tex -B preface.tex ${chapters} -o guide.pdf --verbose 2>&1 | grep -v '^  '
       - uses: actions/upload-artifact@v4
         with:
           name: guide.pdf
@@ -39,7 +66,7 @@ jobs:
       - uses: actions/checkout@v4
       - id: list-items
         run: cat $(ls -1 Chapter*.md | sort -V | tr '\n' ' ' | sed 's/ $//') | sed 's/^####.*/#& {-}/' > guide.md
-      - run: /usr/bin/awk 'BEGIN{go=0;}{ if (go==1){print;} else {if($$0 ~ /^#/) { go=1;print;}}}' guide.md | pandoc -t epub3 -F pandoc-crossref -o guide.epub -N -M "crossrefYaml=crossref.yaml" --metadata-file=metadata.yaml --epub-cover-image=image/Cover/電子版表紙_300dpi_2480x3508.png --css=epub.css
+      - run: /usr/bin/awk 'BEGIN{go=0;}{ if (go==1){print;} else {if($$0 ~ /^#/) { go=1;print;}}}' guide.md | pandoc -t epub3 -F pandoc-crossref -o guide.epub -N -M "crossrefYaml=crossref.yaml" --metadata-file=config-epub.yaml --epub-cover-image=image/Cover/電子版表紙_300dpi_2480x3508.png --css=epub.css
       - uses: actions/upload-artifact@v4
         with:
           name: guide.epub
