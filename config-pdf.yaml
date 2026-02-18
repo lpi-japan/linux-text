@@ -10,7 +10,7 @@ variables:
   documentClass: ltjarticle
   mainfont: Harano Aji Gothic
   bookTitle: Linux標準教科書
-  bookVersion: 2026年2月6日 \, \, Ver.4.0.1
+  bookVersion: 2026年2月18日 \, \, Ver.4.0.1
 
 toc: true
 
