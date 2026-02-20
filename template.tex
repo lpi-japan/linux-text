@@ -554,10 +554,13 @@ $endif$
 \usepackage{wallpaper}
 \begin{document}
 
+$if(no-cover)$
+$else$
 \thispagestyle{empty}
 \ThisCenterWallPaper{1}{image/Cover/電子版表紙_300dpi_2480x3508.png}
 \null
 \cleardoublepage
+$endif$
 
 \thispagestyle{empty}
 \begin{center}
