@@ -8,7 +8,7 @@ WORKDIR /tmp
 RUN install -Dd fonts \
     && curl -fsSL https://github.com/trueroad/HaranoAjiFonts/archive/refs/tags/20230610.tar.gz | tar xz -C fonts
 
-FROM pandoc/extra:edge-ubuntu
+FROM pandoc/extra:3-ubuntu
 
 COPY --from=0 /tmp/fonts/ /usr/local/share/fonts
 
@@ -19,6 +19,4 @@ RUN apt-get update \
     && apt-get install -y fonts-takao fonts-ipafont \
     && rm -rf /var/lib/apt/lists/*
 
-# tlmgr update --all は不要、pandoc/extra:edge-ubuntu に既に十分新しいTeX Liveパッケージが入っている
-# --selfのみ必要（tlmgr自体のバージョンが古いとinstallが失敗するため）
-RUN tlmgr update --self && tlmgr install collection-langjapanese tocloft wallpaper eso-pic
+RUN tlmgr install collection-langjapanese tocloft wallpaper eso-pic
