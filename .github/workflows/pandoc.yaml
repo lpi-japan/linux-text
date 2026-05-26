@@ -13,7 +13,7 @@ jobs:
         shell: sh
         working-directory: ${{ inputs.working-directory }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Check version/date consistency
         run: |
           PDF_VER=$(grep -oP 'Ver\.\d+\.\d+\.\d+' config-pdf.yaml)
@@ -45,7 +45,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.github_token }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: |
           chapters=$(ls -1 Chapter*.md | grep -v 'Chapter00.md' | sort -V | tr '\n' ' ' | sed 's/ $//')
           pandoc Chapter00.md -o preface.tex # 前書きだけ目次の前に出すために先にtex化しておく
@@ -53,7 +53,7 @@ jobs:
           # まずmd → texまで変換しtex → pdfだけ表紙有無分岐するとより高速だが、toc解決の複雑さを回避するため全行程を2周する
           pandoc -d config-pdf.yaml --template template.tex -B preface.tex ${chapters} -o guide.pdf --verbose 2>&1 | grep -v '^  '
           pandoc -d config-pdf.yaml --template template.tex -B preface.tex ${chapters} -M no-cover=true -o guide_no_cover.pdf --verbose 2>&1 | grep -v '^  '
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: pdf-outputs
           path: |
@@ -68,11 +68,11 @@ jobs:
     container:
       image: pandoc/core:3.1.1.0
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: list-items
         run: cat $(ls -1 Chapter*.md | sort -V | tr '\n' ' ' | sed 's/ $//') | sed 's/^####.*/#& {-}/' > guide.md
       - run: /usr/bin/awk 'BEGIN{go=0;}{ if (go==1){print;} else {if($$0 ~ /^#/) { go=1;print;}}}' guide.md | pandoc -t epub3 -F pandoc-crossref -o guide.epub -N -M "crossrefYaml=crossref.yaml" --metadata-file=config-epub.yaml --epub-cover-image=image/Cover/電子版表紙_300dpi_2480x3508.png --css=epub.css
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: guide.epub
           path: ${{ inputs.working-directory }}/guide.epub
