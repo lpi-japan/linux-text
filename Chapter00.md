@@ -166,7 +166,7 @@ Linux 標準教科書でLinux操作の基礎を習得することはできます
 ## Linux技術者認定「LinuC（リナック）」のご紹介 {.unlisted .unnumbered}
 Linux技術者認定「LinuC（リナック）」とは、クラウド／DX時代のITエンジニアに求められるシステム構築から運用管理に必要なスキルを証明できる技術者認定です。アーキテクチャ設計からシステム構築、運用管理までの技術領域を広くカバーしており、４つのレベルの認定取得を通じて一歩ずつ確実に求められるスキルを習得し、それを証明することができます。
 
-LinuCの出題範囲策定や試験開発は、実際に現場で活躍しているハイレベルなITエンジニアが参加するコミュニティによって行われています。そのため、グローバルで業界標準として利用されている技術領域をカバーし、システム開発や運用管理の現場で本当に必要とされる知識や実践的なスキルを問う内容になっています。その結果として従来型のLinux領域にとどまった技術認定とは異なり、国内・海外を問わず活躍を目指すITエンジニアにとっても十分役立つ技術者認定となりました。
+LinuCの出題範囲策定や試験開発は、実際に現場で活躍しているハイレベルなITエンジニアが参加するコミュニティによって行われています。そのため、グローバルで業界標準として利用されている技術領域をカバーし、システム開発や運用管理の現場で本当に必要とされる知識や実践的なスキルを問う内容になっています。その結果として従来型のLinux領域にとどまった技術認定とは異なり、国内・海外を問わず活躍を目指すITエンジニアにとって、実践的かつ有用な技術者認定となっています。
 
 ![LinuCの体系図](image/Ch00/taikei.png){width=70%}
 
@@ -203,7 +203,7 @@ LinuCの特徴の１つは学習環境が充実していることです。LinuC�
 https://linuc.org/measures/
 ```
 
-![https://linuc.org/measures/](image/Ch00/QR_ measures.png){width=25%}
+![https://linuc.org/measures/](image/Ch00/QR_measures.png){width=25%}
 
 LinuCの出題範囲を網羅したLPI-Japan認定教材については以下のリンク先「認定教材」をご覧ください。
 
@@ -211,8 +211,7 @@ LinuCの出題範囲を網羅したLPI-Japan認定教材については以下の
 https://linuc.org/measures/textbook/
 ```
 
-![https://linuc.org/measures/textbook/](image/Ch00/QR_ textbook.png){width=25%}
+![https://linuc.org/measures/textbook/](image/Ch00/QR_textbook.png){width=25%}
 
 \pagebreak
-
 
