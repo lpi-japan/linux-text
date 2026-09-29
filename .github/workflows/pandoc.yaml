@@ -47,6 +47,7 @@ jobs:
     env:
       LANG: C.UTF-8
       LC_ALL: C.UTF-8
+      GIT_METADATA: git=${{ github.sha }}
     defaults:
       run:
         shell: bash
@@ -81,6 +82,7 @@ jobs:
     env:
       LANG: C.UTF-8
       LC_ALL: C.UTF-8
+      GIT_METADATA: git=${{ github.sha }}
     defaults:
       run:
         shell: bash
@@ -113,6 +115,7 @@ jobs:
     env:
       LANG: C.UTF-8
       LC_ALL: C.UTF-8
+      GIT_METADATA: git=${{ github.sha }}
     defaults:
       run:
         shell: bash
