@@ -4,6 +4,10 @@ on:
       working-directory:
         required: true
         type: string
+      image_ref:
+        description: GHCR image built in this run (SHA tag)
+        required: true
+        type: string
 
 jobs:
   check-consistency:
@@ -33,46 +37,102 @@ jobs:
           if [ $ERROR -eq 0 ]; then echo "Version/Date OK: $PDF_VER / $EPUB_DATE"; fi
           exit $ERROR
 
+  # 通常PDF / 表紙なしPDF / EPUB を並列。upload-artifact@v7 の archive:false は1ファイル制限。
+  # 表紙パスに日本語があるため、コンテナ内は UTF-8 ロケール必須。
   build-pdf:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    env:
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
     defaults:
       run:
-        shell: sh
+        shell: bash
         working-directory: ${{ inputs.working-directory }}
     container:
-      image: ghcr.io/lpi-japan/server-text:latest
+      image: ${{ inputs.image_ref }}
       credentials:
         username: ${{ github.actor }}
-        password: ${{ secrets.github_token }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v5
-      - run: |
-          chapters=$(ls -1 Chapter*.md | grep -v 'Chapter00.md' | sort -V | tr '\n' ' ' | sed 's/ $//')
-          pandoc Chapter00.md -o preface.tex # 前書きだけ目次の前に出すために先にtex化しておく
-          # 電子版 = 表紙あり、製本・kindleペーパーバック用 = 表紙なし (表紙は別納)
-          # まずmd → texまで変換しtex → pdfだけ表紙有無分岐するとより高速だが、toc解決の複雑さを回避するため全行程を2周する
-          pandoc -d config-pdf.yaml --template template.tex -B preface.tex ${chapters} -o guide.pdf --verbose 2>&1 | grep -v '^  '
-          pandoc -d config-pdf.yaml --template template.tex -B preface.tex ${chapters} -M no-cover=true -o guide_no_cover.pdf --verbose 2>&1 | grep -v '^  '
-      - uses: actions/upload-artifact@v6
+      - name: Build PDF
+        run: |
+          echo "Using image: ${{ inputs.image_ref }}"
+          chmod +x ./build/build-pdf.sh
+          ./build/build-pdf.sh cover
+      - name: Upload PDF artifact
+        if: always()
+        uses: actions/upload-artifact@v7
         with:
-          name: pdf-outputs
           path: |
-            ${{ inputs.working-directory }}/guide.pdf
-            ${{ inputs.working-directory }}/guide_no_cover.pdf
-  build-epub:
+            tmp/linuxtext_*.pdf
+            !tmp/linuxtext_*_no_cover.pdf
+          archive: false
+          if-no-files-found: error
+
+  build-pdf-no-cover:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    env:
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
     defaults:
       run:
-        shell: sh
+        shell: bash
         working-directory: ${{ inputs.working-directory }}
     container:
-      image: pandoc/core:3.1.1.0
+      image: ${{ inputs.image_ref }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v5
-      - id: list-items
-        run: cat $(ls -1 Chapter*.md | sort -V | tr '\n' ' ' | sed 's/ $//') | sed 's/^####.*/#& {-}/' > guide.md
-      - run: /usr/bin/awk 'BEGIN{go=0;}{ if (go==1){print;} else {if($$0 ~ /^#/) { go=1;print;}}}' guide.md | pandoc -t epub3 -F pandoc-crossref -o guide.epub -N -M "crossrefYaml=crossref.yaml" --metadata-file=config-epub.yaml --epub-cover-image=image/Cover/電子版表紙_300dpi_2480x3508.png --css=epub.css
-      - uses: actions/upload-artifact@v6
+      - name: Build PDF (no cover)
+        run: |
+          echo "Using image: ${{ inputs.image_ref }}"
+          chmod +x ./build/build-pdf.sh
+          ./build/build-pdf.sh no-cover
+      - name: Upload PDF no-cover artifact
+        if: always()
+        uses: actions/upload-artifact@v7
         with:
-          name: guide.epub
-          path: ${{ inputs.working-directory }}/guide.epub
+          path: tmp/linuxtext_*_no_cover.pdf
+          archive: false
+          if-no-files-found: error
+
+  build-epub:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    env:
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.working-directory }}
+    container:
+      image: ${{ inputs.image_ref }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build EPUB
+        run: |
+          echo "Using image: ${{ inputs.image_ref }}"
+          chmod +x ./build/build-epub.sh ./build/with-build-image.sh
+          ./build/build-epub.sh
+      - name: Upload EPUB artifact
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          path: tmp/linuxtext_*.epub
+          archive: false
+          if-no-files-found: error

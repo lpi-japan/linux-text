@@ -19,7 +19,7 @@ toc-depth: 3
 highlight-style: tango
 
 include-in-header:
-  - listing.tex
+  - build/listing.tex
 
 
 # https://pandoc-doc-ja.readthedocs.io/ja/latest/users-guide.html#options-affecting-specific-writers-1

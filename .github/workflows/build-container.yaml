@@ -1,14 +1,15 @@
-name: build pandoc container
+name: build-container
 
 on:
+  workflow_call:
+    outputs:
+      image_ref:
+        description: GHCR image reference for this build
+        value: ${{ jobs.build-container.outputs.image_ref }}
   workflow_dispatch:
-  push:
-    branches:
-      - main
-      - feature/*
-    paths:
-      - Dockerfile
-      - .github/workflows/build-container.yaml
+
+permissions:
+  contents: read
 
 jobs:
   build-container:
@@ -16,32 +17,38 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      image_ref: ${{ steps.ref.outputs.image_ref }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v4
+      - uses: actions/checkout@v5
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - id: metadata
         run: |
-          echo "image=$(echo ${{ github.repository }} | tr '[A-Z]' '[a-z]')" >> "$GITHUB_OUTPUT"
-          echo "tag=$(git rev-parse --short $GITHUB_SHA)" >> "$GITHUB_OUTPUT"
+          image="$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')"
+          tag="$(git rev-parse --short HEAD)"
+          echo "image=${image}" >> "$GITHUB_OUTPUT"
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          {
+            echo "tags<<EOF"
+            echo "ghcr.io/${image}:${tag}"
+            if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+              echo "ghcr.io/${image}:latest"
+            fi
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
-          context: .
+          context: build
           platforms: linux/amd64
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          # コミットハッシュでタグを作成 & mainブランチの場合は latest タグも更新
-          tags: |
-            ghcr.io/${{ steps.metadata.outputs.image }}:${{ steps.metadata.outputs.tag }}
-            ${{ github.ref == 'refs/heads/main' && format('ghcr.io/{0}:latest', steps.metadata.outputs.image) || '' }}
+          tags: ${{ steps.metadata.outputs.tags }}
+      - id: ref
+        run: echo "image_ref=ghcr.io/${{ steps.metadata.outputs.image }}:${{ steps.metadata.outputs.tag }}" >> "$GITHUB_OUTPUT"

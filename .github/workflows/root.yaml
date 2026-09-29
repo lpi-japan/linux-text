@@ -1,20 +1,50 @@
 name: root build
 
 on:
+  workflow_dispatch:
   push:
-    branches:
-      - main
-      - feature/*
-    paths:
-      - Chapter*.md
-      - image/**
-      - listing.tex
-      - template.tex
-      - .github/workflows/pandoc.yaml
-      - .github/workflows/root.yaml
+
+permissions:
+  contents: read
 
 jobs:
-  build:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      editions: ${{ github.event_name == 'workflow_dispatch' && '["root"]' || steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dorny/paths-filter@v4
+        id: filter
+        if: github.event_name == 'push'
+        with:
+          filters: |
+            root:
+              - "Chapter*.md"
+              - "image/**"
+              - "config-pdf.yaml"
+              - "config-epub.yaml"
+              - "crossref.yaml"
+              - "build/**"
+              - ".github/workflows/**"
+
+  build-container:
+    needs: detect
+    if: needs.detect.outputs.editions != '[]'
+    permissions:
+      contents: read
+      packages: write
+    secrets: inherit
+    uses: ./.github/workflows/build-container.yaml
+
+  build-manuscript:
+    needs: [detect, build-container]
+    if: needs.detect.outputs.editions != '[]'
+    permissions:
+      contents: read
+      packages: read
+    secrets: inherit
     uses: ./.github/workflows/pandoc.yaml
     with:
       working-directory: .
+      image_ref: ${{ needs.build-container.outputs.image_ref }}
