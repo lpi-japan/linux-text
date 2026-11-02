@@ -125,7 +125,7 @@ $ sudo visudo
 [sudo] linuc のパスワード: ※ユーザーlinucのパスワードを入力（非表示）
 ```
 
-viで/etc/sudoersが開けたら、以下の設定行を見つけて変更し、保存、終了します（viの編集モードでコマンド:wq）。設定は即時有効になります。
+viで/etc/sudoersが開けたら、以下の設定行を見つけて変更し、保存、終了します（viのコマンドモードでコマンド:wq）。設定は即時有効になります。
 
 ```
 ## Allows people in group wheel to run all commands
